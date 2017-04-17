@@ -16,14 +16,28 @@ LIBS = -L ./deps/lib -lgit2 \
 	   -lcurl -lhttp_parser -lssl -lz
 
 TEST = test
+ADD = add
+CMI = commit
 
 TEST_FILE = test.cpp
+ADD_FILE = add.cpp
+CMI_FILE = commit.cpp
 
 TEST_OBJS := $(patsubst %.cpp, %.o, $(TEST_FILE))
+ADD_OBJS := $(patsubst %.cpp, %.o, $(ADD_FILE))
+CMI_OBJS := $(patsubst %.cpp, %.o, $(CMI_FILE))
 
-all : $(TEST)
+all : $(TEST) $(ADD) $(CMI)
 
 $(TEST) : $(TEST_OBJS)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LIBS)
+	rm *.o
+
+$(ADD) : $(ADD_OBJS)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LIBS)
+	rm *.o
+
+$(CMI) : $(CMI_OBJS)
 	$(CXX) $(CXXFLAGS) $(INCLUDE) $^ -o $@ $(LIBS)
 	rm *.o
 
@@ -32,4 +46,4 @@ $(TEST) : $(TEST_OBJS)
 
 
 clean:
-	rm -f *.o $(TEST)
+	rm -f *.o $(TEST) $(ADD) $(CMI)

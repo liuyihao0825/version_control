@@ -46,14 +46,18 @@ static void create_initial_commit(git_repository* repo)
         printf("Unable to write initial tree from index");
     }
 
+    char shortsha[100] = {0};
+    git_oid_tostr(shortsha, 99, &tree_id);
+    cout << "shortsha=" << shortsha << endl;
+
     git_index_free(index);
 
     if (git_tree_lookup(&tree, repo, &tree_id) < 0) {
         printf("Unable to look up initial tree");
     }
 
-    if (git_commit_create_v(&commit_id, repo, "HEAD", sig, sig,
-                NULL, "initial commit 2", tree, 0) < 0) {
+    if (git_commit_create_v(&commit_id, repo, NULL, sig, sig,
+                NULL, "commit 2, modify readme", tree, 0) < 0) {
         printf("Unable to create initial commit");
     }
 
@@ -61,7 +65,7 @@ static void create_initial_commit(git_repository* repo)
     git_signature_free(sig);
 }
 
-int runGitRepo()
+int run_git_repo()
 {
     int error = 0;
 
@@ -84,9 +88,68 @@ int runGitRepo()
     return error;
 }
 
+static void check_error(int error_code, const char* action)
+{
+    const git_error* error = giterr_last();
+    if (!error_code) {
+        return;
+    }
+
+    printf("Error %d %s - %s\n", error_code, action,
+           (error && error->message) ? error->message : "???");
+
+    exit(1);
+}
+
+int open_git_repo()
+{
+    int error;
+
+    git_repository* repo;
+    const char* repo_path = "/home/liuyihao/workspace/configservice/search/configservice/gitlib/confsev-demo/configservice_meta/.git";
+
+    git_libgit2_init();
+
+    error = git_repository_open(&repo, repo_path);
+    if (error < 0) {
+        repo = NULL;
+        cout << "open configservice_meta repo fail" << endl;
+    }
+
+    git_oid oid;
+    //error = git_oid_fromstr(&oid, "HEAD^{tree}");
+    error = git_reference_name_to_id(&oid, repo, "HEAD");;
+    cout << "git_reference error = " << error << endl;
+
+    char shortsha[10] = {0};
+    git_oid_tostr(shortsha, 9, &oid);
+
+    cout << "oid str =" << shortsha << endl;
+
+    git_commit* commit;
+    error = git_commit_lookup(&commit, repo, &oid);
+    cout << "git_commit error = " << error << endl;
+
+    /*
+    git_tree* tree;
+    error = git_tree_lookup(&tree, repo, &oid);
+    cout << "git_tree error = " << error << endl;
+    */
+
+    //create_initial_commit(repo);
+
+    if (repo) {
+        git_repository_free(repo);
+    }
+
+    git_libgit2_shutdown();
+
+    return error;
+}
+
 int main(int argc, char **argv)
 {
-    int ret = runGitRepo();
+    int ret = open_git_repo();
 
     cout << "ret=" << ret << endl;
 
