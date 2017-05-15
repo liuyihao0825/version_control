@@ -1,0 +1,47 @@
+add.c:	fprintf(stderr, "usage: add [options] [--] file-spec [file-spec] [...]\n\n");
+blame.c:			snprintf(sig, 30, "%s <%s>", hunk->final_signature->name, hunk->final_signature->email);
+diff.c:	fprintf(stderr, "usage: diff [<tree-oid> [<tree-oid>]]\n");
+diff.c:		switch (line->origin) {
+diff.c:		else if (!strcmp(a, "--name-only") || !strcmp(a, "--format=name"))
+diff.c:		else if (!strcmp(a, "--name-status") ||
+diff.c:				!strcmp(a, "--format=name-status"))
+diff.c:		else if (!strcmp(a, "--ignore-space-at-eol"))
+diff.c:		else if (!strcmp(a, "-b") || !strcmp(a, "--ignore-space-change"))
+diff.c:		else if (!strcmp(a, "-w") || !strcmp(a, "--ignore-all-space"))
+general.c: * methods provided as a re-entrant linkable library with a solid API,
+general.c:	 * a string representation of that value (and vice-versa).
+general.c:		printf("path: %s\n", e->path);
+general.c:		printf("mtime: %d\n", (int)e->mtime.seconds);
+general.c:		printf("fs: %d\n", (int)e->file_size);
+init.c:			"            [--separate-git-dir] <directory>\n");
+init.c:		         !match_str_arg(&o->gitdir, &args, "--separate-git-dir"))
+log.c:	offset = intime->offset;
+log.c:	t = (time_t)intime->time + (intime->offset * 60);
+log.c:		else if (!strcmp(a, "--date-order"))
+network/fetch.c: * This function gets called for each remote-tracking branch that gets
+rev-list.c:		} else if (!strcmp(opts[i], "--date-order")) {
+showindex.c:		git_oid_fmt(out, &e->id);
+showindex.c:		printf("File Path: %s\n", e->path);
+showindex.c:		printf("File Mode: %07o\n", e->mode);
+showindex.c:		printf("File Size: %d bytes\n", (int)e->file_size);
+showindex.c:		printf("Dev/Inode: %d/%d\n", (int)e->dev, (int)e->ino);
+showindex.c:		printf("  UID/GID: %d/%d\n", (int)e->uid, (int)e->gid);
+showindex.c:		printf("    ctime: %d\n", (int)e->ctime.seconds);
+showindex.c:		printf("    mtime: %d\n", (int)e->mtime.seconds);
+status.c:		else if (!strcmp(a, "--ignore-submodules=all"))
+tag.c:	int num = state->opts->num_lines - 1;
+tag.c:	if (state->opts->num_lines) {
+tag.c:	if (state->opts->num_lines) {
+tag.c:	git_repository *repo = state->repo;
+tag.c:	const char *pattern = state->opts->pattern;
+tag.c:	check_lg2(git_tag_list_match(&tag_names, pattern ? pattern : "*", state->repo),
+tag.c:	tag_options *opts = state->opts;
+tag.c:	check_lg2(git_revparse_single(&obj, state->repo, opts->tag_name),
+tag.c:	check_lg2(git_tag_delete(state->repo, opts->tag_name),
+tag.c:	git_repository *repo = state->repo;
+tag.c:	tag_options *opts = state->opts;
+tag.c:	git_repository *repo = state->repo;
+tag.c:	tag_options *opts = state->opts;
+test/test-rev-list.sh:diff -u - <(run --date-order a4a7dce) <<EOF
+test/test-rev-list.sh:diff -u - <(run --date-order --reverse a4a7dce) <<EOF
+test/test-rev-list.sh:out="$(run --date-order --topo-order --reverse --reverse a4a7dce)"
